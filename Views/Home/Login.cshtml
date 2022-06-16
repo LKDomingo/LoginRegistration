@@ -1,0 +1,21 @@
+@model LogUser;
+
+<div class="row text-center">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="display-6">Login to this Cooool Site!</h1>
+        <a href="/">Register</a>
+    </div>
+    <form action="/user/login" method="post" class="p-3 my-3">
+        <div class="d-flex justify-content-start align-items-start gap-5">
+            <div class="form-group d-flex flex-column justify-content-start align-items-start">
+                <label for="LogEmail">Email</label>
+                <input asp-for="LogEmail" class="mt-1">
+                <small class="mb-3"><span asp-validation-for="LogEmail" class="text-danger"></span></small>
+                <label for="LogPassword">Password</label>
+                <input asp-for="LogPassword" class="mt-1">
+                <small class="mb-3"><span asp-validation-for="LogPassword" class="text-danger"></span></small>
+                <input type="submit" value="Login" class="btn btn-primary">
+            </div>
+        </div>
+    </form>
+</div>
