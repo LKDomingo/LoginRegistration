@@ -55,15 +55,21 @@ public class HomeController : Controller
         {
             User? userInDb = _context.Users.FirstOrDefault(a => a.Email == loginUser.LogEmail);
 
-            PasswordHasher<LogUser> Hasher = new PasswordHasher<LogUser>();
-            var result = Hasher.VerifyHashedPassword(loginUser, userInDb.Password, loginUser.LogPassword);
 
-            if (userInDb == null || result == 0)
+            if (userInDb == null)
             {
                 ModelState.AddModelError("LogEmail", "Invalid login attempt");
                 return View("login");
             }
 
+            PasswordHasher<LogUser> Hasher = new PasswordHasher<LogUser>();
+            var result = Hasher.VerifyHashedPassword(loginUser, userInDb.Password, loginUser.LogPassword);
+
+            if (result == 0)
+            {
+                ModelState.AddModelError("LogEmail", "Invalid login attempt");
+                return View("login");
+            }
             HttpContext.Session.SetInt32("UserId", userInDb.UserId);
             return RedirectToAction("success");
         }
@@ -91,7 +97,7 @@ public class HomeController : Controller
     public IActionResult Logout()
     {
         HttpContext.Session.Clear();
-        return View("Login");
+        return RedirectToAction("Login");
     }
 
 
